@@ -1,18 +1,31 @@
+/* Estilos generales */
 body {
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    color: white;
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #333;
-    color: white;
-    font-family: Arial, sans-serif;
 }
 
+/* Contenedor principal */
+.main-container {
+    display: flex;
+    flex-direction: row; /* Alinea los elementos en fila */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px; /* Espaciado entre calculadora y árbol */
+}
+
+/* Calculadora */
 .calculator {
     background-color: #444;
     padding: 20px;
     border-radius: 8px;
-    text-align: center;
+    width: 250px;
 }
 
 #display {
@@ -24,6 +37,7 @@ body {
     border: none;
     background-color: #222;
     color: white;
+    border-radius: 4px;
 }
 
 .buttons {
@@ -33,7 +47,7 @@ body {
 }
 
 button {
-    padding: 20px;
+    padding: 15px;
     font-size: 18px;
     border: none;
     border-radius: 4px;
@@ -46,7 +60,17 @@ button:hover {
     background-color: #888;
 }
 
+/* Área del árbol */
 .tree-display {
-    margin-top: 20px;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
     text-align: center;
+}
+
+svg {
+    border: 1px solid white;
+    background-color: #222;
+    border-radius: 4px;
 }
