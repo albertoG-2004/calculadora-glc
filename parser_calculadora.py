@@ -1,7 +1,6 @@
 import ply.lex as lex
 import ply.yacc as yacc
 
-# Definir los tokens
 tokens = (
     'NUMBER',
     'PLUS',
@@ -12,16 +11,14 @@ tokens = (
     'RPAREN',
 )
 
-# Expresiones regulares para los tokens
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_NUMBER = r'\d+(\.\d+)?'  # acepta enteros y decimales
+t_NUMBER = r'\d+(\.\d+)?'
 
-# Ignorar espacios en blanco
 t_ignore = ' \t'
 
 # Manejar errores léxicos
@@ -66,17 +63,20 @@ def p_error(p):
 # Construir el parser
 parser = yacc.yacc()
 
-# Función para calcular el resultado a partir del árbol de decisiones
 def eval_arbol(arbol):
-    if isinstance(arbol, tuple):
-        op, left, right = arbol
-        if op == '+':
-            return eval_arbol(left) + eval_arbol(right)
-        elif op == '-':
-            return eval_arbol(left) - eval_arbol(right)
-        elif op == '*':
-            return eval_arbol(left) * eval_arbol(right)
-        elif op == '/':
-            return eval_arbol(left) / eval_arbol(right)
-    else:
+    if isinstance(arbol, (int, float)):
         return arbol
+    operador, izquierdo, derecho = arbol
+    if operador == '+':
+        return eval_arbol(izquierdo) + eval_arbol(derecho)
+    elif operador == '-':
+        return eval_arbol(izquierdo) - eval_arbol(derecho)
+    elif operador == '*':
+        return eval_arbol(izquierdo) * eval_arbol(derecho)
+    elif operador == '/':
+        return eval_arbol(izquierdo) / eval_arbol(derecho)
+    raise ValueError("Operador desconocido")
+
+def p_factor_num(p):
+    'factor : NUMBER'
+    p[0] = float(p[1])

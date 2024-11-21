@@ -8,25 +8,89 @@ function addToExpression(value) {
 function clearDisplay() {
     expression = "";
     document.getElementById('display').value = "";
-    d3.select("#tree").selectAll("*").remove(); // Limpia el área del árbol
+    d3.select("#tree").selectAll("*").remove();
 }
 
-function calculate() {
+function calculate(save = false) {
     fetch('/calculate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ expression: expression })
+        body: JSON.stringify({ expression: expression, save: save })
     })
     .then(response => response.json())
     .then(data => {
         if (data.result) {
             document.getElementById('display').value = data.result;
+            expression = "";
+
+            if (data.tabla_tokens && data.resumen) {
+                renderTokensTable(data.tabla_tokens);
+                renderSummaryTable(data.resumen);
+            }
+            if (data.tree) {
+                drawTree(data.tree);
+            }
         } else {
             document.getElementById('display').value = data.error;
         }
     });
+}
+
+function saveResult() {
+    calculate(true);
+}
+
+function clearSavedValue() {
+    fetch('/clear_saved', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
+
+function renderTokensTable(tokens) {
+    const table = document.getElementById('tokens-table');
+    table.innerHTML = `
+        <tr>
+            <th>Token</th>
+            <th>Tipo</th>
+        </tr>
+    `;
+
+    tokens.forEach(token => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${token.Token}</td>
+            <td>${token.Tipo}</td>
+        `;
+        table.appendChild(row);
+    });
+}
+
+function renderSummaryTable(summary) {
+    const table = document.getElementById('summary-table');
+    table.innerHTML = `
+        <tr>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+        </tr>
+        <tr>
+            <td>Operadores</td>
+            <td>${summary.Operadores}</td>
+        </tr>
+        <tr>
+            <td>Enteros</td>
+            <td>${summary.Enteros}</td>
+        </tr>
+        <tr>
+            <td>Decimales</td>
+            <td>${summary.Decimales}</td>
+        </tr>
+    `;
 }
 
 function showTree() {

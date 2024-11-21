@@ -60,6 +60,13 @@ button:hover {
     background-color: #888;
 }
 
+button:nth-child(20) {
+    background-color: #4CAF50; /* Verde para el botón Guardar */
+}
+
+button:nth-child(20):hover {
+    background-color: #45a049;
+}
 /* Área del árbol */
 .tree-display {
     background-color: #444;
@@ -73,4 +80,46 @@ svg {
     border: 1px solid white;
     background-color: #222;
     border-radius: 4px;
+}
+
+.results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #444;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.results th, .results td {
+    border: 1px solid #555;
+    padding: 10px;
+    text-align: center;
+}
+
+.results th {
+    background-color: #666;
+    font-weight: bold;
+    color: white;
+}
+
+.results td {
+    background-color: #333;
+    color: white;
+}
+
+.results table tr:nth-child(even) td {
+    background-color: #555;
+}
+
+.results table tr:hover td {
+    background-color: #777;
+    cursor: default;
+}
+
+.results h2 {
+    margin-top: 0;
+    font-size: 18px;
+    text-align: left;
+    color: #ddd;
 }
